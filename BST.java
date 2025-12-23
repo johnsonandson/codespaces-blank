@@ -1,3 +1,6 @@
+//12/25
+//John Speer
+//Creates Binary Search Tree and methods for it
 import java.util.ArrayList;
 
 public class BST {
@@ -8,8 +11,8 @@ public class BST {
     }
 
    
-//pre condition: key is not an integer already in the BST
-//post condition: puts the key into the BST in a correct position
+    //pre condition: key is not an integer already in the BST
+    //post condition: puts the key into the BST in a correct position
     void insert(int key){
         ArrayList<Node> path=new ArrayList<>();
 		if (root==null){
@@ -57,9 +60,9 @@ public class BST {
     }
     //pre condition: key is an integer
     //post condition: returns true if the key was removed, and removes the key from the BST while attaching it's personal root to one of its children
-    boolean remove(int key){
+    int remove(int key){
         if (search(key)==false){
-            return false;
+            return -1;
         }
 
         Node curr=root;
@@ -74,9 +77,14 @@ public class BST {
                         replace = replace.left;
                     }
                     curr.key = replace.key;
-                    replaceUp.left = null;
+                    if (replaceUp.right.equals(replace)){
+                        replaceUp.right=null;
+                    }
+                    else if(replaceUp.left.equals(replace)){
+                        replaceUp.left=null;
+                    }
 
-                    return true;
+                    return key;
                 }
                 else if(curr.left!=null){
                     if(curr.equals(parent.left)){
@@ -85,7 +93,7 @@ public class BST {
                     else if(curr.equals(parent.right)){
                         parent.right=curr.left;
                     }
-                    return true;
+                    return key;
                 }
                 else if(curr.right!=null){
                     if(curr.equals(parent.left)){
@@ -94,7 +102,7 @@ public class BST {
                     else if(curr.equals(parent.right)){
                         parent.right=curr.right;
                     }
-                    return true;
+                    return key;
                 }
                 else{
                     if(curr.equals(parent.left)){
@@ -103,7 +111,7 @@ public class BST {
                     else if(curr.equals(parent.right)){
                         parent.right=null;
                     }
-                    return true;
+                    return key;
                 }
             }
             else if(key<curr.key){
@@ -131,6 +139,7 @@ public class BST {
         }
         return str;
     }
+    //pre condition
     private ArrayList<ArrayList<Node>> toString(Node n,int depth, ArrayList<ArrayList<Node>> nums){
         if (n==null){
             return nums;

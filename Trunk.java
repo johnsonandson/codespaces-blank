@@ -1,4 +1,7 @@
-  public  class Trunk
+//12/25
+//John Speer
+//
+ public  class Trunk
    {
     Trunk prev;
     String str;
