@@ -21,5 +21,8 @@ public class Main{
         bst.remove(3);
         bst.printTree();
         System.out.println(bst.toString());
+        if (bst.isBSTOrNot()){
+            System.out.println("Is a bst!");
+        }        
     }
 }

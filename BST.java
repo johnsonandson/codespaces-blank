@@ -228,7 +228,8 @@ public class BST {
     // rotates the tree such that the subRoot is replaced with it's right child with subRoot becoming the left child of the new subRoot. prev now points to the new subRoot.
 
     private void rotateLeft(Node subRoot, Node prev){
-
+        prev.right=subRoot.left;
+        
     }
 
  
@@ -241,7 +242,7 @@ public class BST {
     
     // returns the height of the node 
     //precondition: the node is in the current BST and there is at least one node in the BST
-    //post condition: returns the height of the node, which is the amount of edges from the 
+    //post condition: returns the height of the node, which is the amount of edges from the node to the farthest leaf
     private int height(Node node){
         if(node.left==null&&node.right==null){
             return 0;
@@ -259,18 +260,9 @@ public class BST {
     }
 
     //returns the balance at the specified node
-
+    //pre condition: node is a node in the BST
+    //post condition: returns the height of the left child minus the height of the right child
     private int balance(Node node){
-        
-        if(node.left==null&&node.right==null){
-            return 0;
-        }
-        if(node.left!=null&&node.right!=null){
-            return 
-        }
-        if (node.left!=null){
-        }
-        else{
-        }
+        return height(node.left)-height(node.right);
     }
 }
