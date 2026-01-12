@@ -20,21 +20,39 @@ public class BST {
             return;
         }
         Node curr=root;
-        while(true){
+        boolean ye=true;
+        while(ye){
             path.add(curr);
             if(key<curr.key){
                 if(curr.left==null){
                     curr.left=new Node(key);
-                    return;
+                    ye=false;
                 }
                 curr=curr.left;
             }else if(key>curr.key){
                     if(curr.right==null){
                         curr.right=new Node(key);
-                        return;
+                        ye=false;
                     }
                     curr=curr.right;
             }
+        }
+        Node prev=null;
+        for(int i=0;i<path.size();i++){
+            Node look=path.get(i);
+            if (balance(look)==-2&&balance(look.right)==1){
+                fixCrookedRight(look,prev);
+            }
+            else if (balance(look)==2&&balance(look.left)==-1){
+                fixCrookedLeft(look,prev);
+            }
+            else if(1<balance(path.get(i))){
+                rotateRight(look,prev);
+            }
+            else if(balance(path.get(i))<-1){
+                rotateLeft(look,prev);
+            }
+            prev=look;
         }
     }
     //pre condition: key is an integer
@@ -59,15 +77,17 @@ public class BST {
         
     }
     //pre condition: key is an integer
-    //post condition: returns true if the key was removed, and removes the key from the BST while attaching it's personal root to one of its children
+    //post condition: returns the key if the key was removed, and removes the key from the BST while attaching it's personal root to one of its children. otherwise, returns -1
     int remove(int key){
         if (search(key)==false){
             return -1;
         }
-
+        ArrayList<Node> path=new ArrayList<Node>();
+        path.add(root);
         Node curr=root;
         Node parent=null;
-        while(true){
+        boolean work=true;
+        while(work){
             if (curr.key==key){
                 if(curr.left!=null&&curr.right!=null){
                     Node replaceUp = curr;
@@ -80,11 +100,8 @@ public class BST {
                     if (replaceUp.right.equals(replace)){
                         replaceUp.right=null;
                     }
-                    else if(replaceUp.left.equals(replace)){
-                        replaceUp.left=null;
-                    }
-
-                    return key;
+                    
+                    work=false;
                 }
                 else if(curr.left!=null){
                     if(curr.equals(parent.left)){
@@ -93,7 +110,7 @@ public class BST {
                     else if(curr.equals(parent.right)){
                         parent.right=curr.left;
                     }
-                    return key;
+                    work=false;
                 }
                 else if(curr.right!=null){
                     if(curr.equals(parent.left)){
@@ -102,7 +119,7 @@ public class BST {
                     else if(curr.equals(parent.right)){
                         parent.right=curr.right;
                     }
-                    return key;
+                    work=false;
                 }
                 else{
                     if(curr.equals(parent.left)){
@@ -111,17 +128,46 @@ public class BST {
                     else if(curr.equals(parent.right)){
                         parent.right=null;
                     }
-                    return key;
+                    work=false;
                 }
             }
             else if(key<curr.key){
+                path.add(parent);
                 parent=curr;
                 curr=curr.left;
             }else if(key>curr.key){
+                path.add(parent);
                 parent=curr;
                 curr=curr.right;
             }
         }
+        Node prev=null;
+        for(int i=0;i<path.size();i++){
+            Node look=path.get(i);
+            if (balance(look)==-2&&balance(look.right)==1){
+                fixCrookedRight(look,prev);
+            }
+            else if (balance(look)==2&&balance(look.left)==-1){
+                fixCrookedLeft(look,prev);
+            }
+            else if(1<balance(path.get(i))){
+                rotateRight(look,prev);
+            }
+            else if(balance(path.get(i))<-1){
+                rotateLeft(look,prev);
+            }
+            prev=look;
+        }
+        
+        if(balance(root)<-1){
+            rotateLeft(root,null);
+
+        }
+        else if(balance(root)>1){
+            rotateRight(root,null);
+        }
+        
+        return key;
     }
 
     //pre condition: BST has at least one node with a integer key
@@ -222,13 +268,33 @@ public class BST {
         trunk.str = "   |";
  
         printTree(root.left, trunk, false);
+
     }
 
-
+    private void fixCrookedLeft(Node node, Node prev){
+        rotateLeft(node.left,node);
+        rotateRight(node,prev);
+    }
+    private void fixCrookedRight(Node node, Node prev){
+        rotateRight(node.right,node);
+        rotateLeft(node,prev);
+    }
     // rotates the tree such that the subRoot is replaced with it's right child with subRoot becoming the left child of the new subRoot. prev now points to the new subRoot.
 
     private void rotateLeft(Node subRoot, Node prev){
-        prev.right=subRoot.left;
+        if(prev==null){
+            root = subRoot.right;
+        }
+        else if (prev.right==subRoot){
+            prev.right=subRoot.right;
+        }
+        else{
+            prev.left=subRoot.right;
+        }
+        Node temp=subRoot;
+        subRoot=subRoot.right;
+        temp.right=subRoot.left;
+        subRoot.left=temp;
         
     }
 
@@ -237,13 +303,28 @@ public class BST {
     // rotates the tree such that the subRoot is replaced with it's left child with subRoot becoming the right child of the new subRoot. prev now points to the new subRoot.
 
     private void rotateRight(Node subRoot, Node prev){
-
+        if(prev==null){
+            root = subRoot.left;
+        }
+        else if (prev.right.equals(subRoot)){
+            prev.right=subRoot.left;
+        }
+        else{
+            prev.left=subRoot.left;
+        }
+        Node temp=subRoot;
+        subRoot=subRoot.left;
+        temp.left=subRoot.right;
+        subRoot.right=temp;
     }
     
     // returns the height of the node 
     //precondition: the node is in the current BST and there is at least one node in the BST
     //post condition: returns the height of the node, which is the amount of edges from the node to the farthest leaf
     private int height(Node node){
+        if(node==null){
+            return -1;
+        }
         if(node.left==null&&node.right==null){
             return 0;
         }
@@ -263,6 +344,9 @@ public class BST {
     //pre condition: node is a node in the BST
     //post condition: returns the height of the left child minus the height of the right child
     private int balance(Node node){
+        if(node==null){
+            return 0;
+        }
         return height(node.left)-height(node.right);
     }
 }

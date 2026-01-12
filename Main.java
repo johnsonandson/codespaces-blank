@@ -8,21 +8,30 @@ public class Main{
         bst.insert(4);
         bst.insert(2);
         bst.insert(7);
-        if(bst.search(3)) System.out.println("true"); else {System.out.println("false");}
-        bst.insert(1);
-        System.out.println(bst.toString());
+        bst.insert(8);
+        bst.insert(9);
         bst.printTree();
-        bst.remove(1);
+        bst.remove(2);
         bst.printTree();
-        System.out.println(bst.toString());
-        bst.remove(4);
-        bst.printTree();
-        System.out.println(bst.toString());
         bst.remove(3);
         bst.printTree();
-        System.out.println(bst.toString());
-        if (bst.isBSTOrNot()){
-            System.out.println("Is a bst!");
-        }        
+        bst.remove(8);
+        bst.printTree();
+        // if(bst.search(3)) System.out.println("true"); else {System.out.println("false");}
+        // bst.insert(1);
+        // System.out.println(bst.toString());
+        // bst.printTree();
+        // bst.remove(1);
+        // bst.printTree();
+        // System.out.println(bst.toString());
+        // bst.remove(4);
+        // bst.printTree();
+        // System.out.println(bst.toString());
+        // bst.remove(3);
+        // bst.printTree();
+        // System.out.println(bst.toString());
+        // if (bst.isBSTOrNot()){
+        //     System.out.println("Is a bst!");
+        // }        
     }
 }
