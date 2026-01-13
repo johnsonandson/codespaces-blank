@@ -17,21 +17,21 @@ public class Main{
         bst.printTree();
         bst.remove(8);
         bst.printTree();
-        // if(bst.search(3)) System.out.println("true"); else {System.out.println("false");}
-        // bst.insert(1);
-        // System.out.println(bst.toString());
-        // bst.printTree();
-        // bst.remove(1);
-        // bst.printTree();
-        // System.out.println(bst.toString());
-        // bst.remove(4);
-        // bst.printTree();
-        // System.out.println(bst.toString());
-        // bst.remove(3);
-        // bst.printTree();
-        // System.out.println(bst.toString());
-        // if (bst.isBSTOrNot()){
-        //     System.out.println("Is a bst!");
-        // }        
+        if(bst.search(3)) System.out.println("true"); else {System.out.println("false");}
+        bst.insert(1);
+        System.out.println(bst.toString());
+        bst.printTree();
+        bst.remove(1);
+        bst.printTree();
+        System.out.println(bst.toString());
+        bst.remove(4);
+        bst.printTree();
+        System.out.println(bst.toString());
+        bst.remove(3);
+        bst.printTree();
+        System.out.println(bst.toString());
+        if (bst.isBSTOrNot()){
+            System.out.println("Is a bst!");
+        }        
     }
 }
