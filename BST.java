@@ -185,7 +185,8 @@ public class BST {
         }
         return str;
     }
-    //pre condition
+    //pre condition: the tree is initialized, nums is initialized
+    //post condition: returns an arraylist of arraylists of the tree nodes
     private ArrayList<ArrayList<Node>> toString(Node n,int depth, ArrayList<ArrayList<Node>> nums){
         if (n==null){
             return nums;
@@ -203,10 +204,13 @@ public class BST {
 
         return nums;
     }
+    //pre condition: bst is initialized
+    //post condition: returns true if the bst is balanced on every node, false if not
     public boolean isBSTOrNot() {
         return isBSTOrNot(this.root, Integer.MIN_VALUE, Integer.MAX_VALUE);
     }
-
+    //pre condition: bst is initialized
+    //post condition: returns true if the bst is balanced, false if not.
     private boolean isBSTOrNot(Node root, int minValue, int maxValue) {
         // check for root is not null or not
         if (root == null) {
@@ -222,6 +226,8 @@ public class BST {
  
 
    // please use the following pieces of code to display your tree in a more easy to follow style (Note* you'll need to place the Trunk class in it's own file)
+    //pre condition: bst is initialized
+    //post condition: prints
     public static void showTrunks(Trunk p)
     {
         if (p == null) {
@@ -231,11 +237,13 @@ public class BST {
         showTrunks(p.prev);
         System.out.print(p.str);
     }
- 
+    //pre condition: bst is initialized
+    //post condition: calls the printTree function to print a tree of the bst
     public void printTree(){
         printTree(root, null, false);
     }
-
+    //pre condition: bst is initialized
+    //post condition: prints a tree with all of the bst nodes connecting to each child
     private void printTree(Node root, Trunk prev, boolean isLeft)
     {
         if (root == null) {
@@ -270,17 +278,21 @@ public class BST {
         printTree(root.left, trunk, false);
 
     }
-
+    //pre condition: node is initialized
+    //post condition: rotates left child left, then rotates node right.
     private void fixCrookedLeft(Node node, Node prev){
         rotateLeft(node.left,node);
         rotateRight(node,prev);
     }
+    //pre condition: node is initialized
+    //post condition: rotates right child right, then rotates node left.
     private void fixCrookedRight(Node node, Node prev){
         rotateRight(node.right,node);
         rotateLeft(node,prev);
     }
     // rotates the tree such that the subRoot is replaced with it's right child with subRoot becoming the left child of the new subRoot. prev now points to the new subRoot.
-
+    //pre condition: subRoot is a non null node
+    //post condition: rotates subRoot to the left, where it is replaced by its right child and becomes that child's left child, and that child's left child becomes subRoot's right child
     private void rotateLeft(Node subRoot, Node prev){
         if(prev==null){
             root = subRoot.right;
@@ -301,7 +313,8 @@ public class BST {
  
 
     // rotates the tree such that the subRoot is replaced with it's left child with subRoot becoming the right child of the new subRoot. prev now points to the new subRoot.
-
+    //pre condition: subRoot is a non null node
+    //post condition: rotates subRoot to the right, where it is replaced by its left child and becomes that child's right child, and child's right child becomes subRoot's right child
     private void rotateRight(Node subRoot, Node prev){
         if(prev==null){
             root = subRoot.left;
@@ -325,18 +338,7 @@ public class BST {
         if(node==null){
             return -1;
         }
-        if(node.left==null&&node.right==null){
-            return 0;
-        }
-        if(node.left!=null&&node.right!=null){
             return 1+Math.max(height(node.right),height(node.left));
-        }
-        if (node.left!=null){
-            return 1+height(node.left);
-        }
-        else{
-            return 1+height(node.right);
-        }
        
     }
 
