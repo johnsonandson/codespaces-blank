@@ -141,9 +141,12 @@ public class BST {
                 curr=curr.right;
             }
         }
-        Node prev=null;
-        for(int i=0;i<path.size();i++){
+        for(int i=path.size()-1;i>=0;i--){
+            Node prev=null;
             Node look=path.get(i);
+            if(i>0){
+                prev=path.get(i-1);
+            }
             if (balance(look)==-2&&balance(look.right)==1){
                 fixCrookedRight(look,prev);
             }
@@ -156,7 +159,6 @@ public class BST {
             else if(balance(path.get(i))<-1){
                 rotateLeft(look,prev);
             }
-            prev=look;
         }
         
         if(balance(root)<-1){
