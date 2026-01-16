@@ -97,7 +97,7 @@ public class BST {
                         replace = replace.left;
                     }
                     curr.key = replace.key;
-                    if (replaceUp.right.equals(replace)){
+                    if (replaceUp.equals(curr)){
                         replaceUp.right=null;
                     }
                     
